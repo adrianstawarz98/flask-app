@@ -1,0 +1,63 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <h3><p style="text-align: center;">{{msg}}</p></h3>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="page-header">
+    <h1>Raw data</h1>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Created at</th>
+        <th>ip</th>
+        <th>Student</th>
+        <th>Sex</th>
+        <th>Hours</th>
+        <th>Hours2</th>
+        <th>Cons</th>
+        <th>Defect</th>
+        <th>Glasses</th>
+        <th>Oculist</th>
+        <th>Eye Pain</th>
+        <th>Headache</th>
+        <th>Breaks</th>
+        <th>Droplets</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for element in formdata[0] %}
+    <tr>
+        <td>{{ element._id }}</td>
+        <td>{{ element.created_at }}</td>
+        <td>{{ element._ip }}</td>
+        <td>{{ element.is_student }}</td>
+        <td>{{ element.sex }}</td>
+        <td>{{ element.hours_comp }}</td>
+        <td>{{ element.hours_comp_before }}</td>
+        <td>{{ formdata[1] }}</td>
+        <td>{{ element.defect }}</td>
+        <td>{{ element.glasses }}</td>
+        <td>{{ element.oculist }}</td>
+        <td>{{ element.eye_pain }}</td>
+        <td>{{ element.head_pain }}</td>
+        <td>{{ element.breaks }}</td>
+        <td>{{ element.droplets }}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

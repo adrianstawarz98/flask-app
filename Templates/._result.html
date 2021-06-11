@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Procentowe podsumowanie jak odpowiadali inni ankietowani </h1>
+
+<div>
+    Płeć
+    <ul>
+        <li>Mężczyzna {{ data[0][0] }} %</li>
+        <li>Kobieta {{ data[0][1] }} %</li>
+        <li>Inna {{ data[0][2] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Godziny spędzane przez komputerem w trakcie pandemii
+    <ul>
+        <li>2-3 godziny {{ data[1][0] }} %</li>
+        <li>3-4 godziny {{ data[1][1] }} %</li>
+        <li>5-6 godzin {{ data[1][2] }} %</li>
+        <li>6 i więcej {{ data[1][3] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Godziny spędzane przez komputerem przed pandemią
+    <ul>
+        <li>2-3 godziny {{ data[2][0] }} %</li>
+        <li>3-4 godziny {{ data[2][1] }} %</li>
+        <li>5-6 godzin {{ data[2][2] }} %</li>
+        <li>6 i więcej {{ data[2][3] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Czy odczuwasz konsekwencje wynikające ze zmiany trybu studiów na zdalne? 
+    <ul>
+        <li>Suchość oczu {{data[3][0] }} %</li>
+        <li>Pieczenie oczu {{data[3][1] }} %</li>
+        <li>nadmierne zmęczenie {{data[3][2] }} %</li>
+        <li>bóle głowy {{data[3][3] }} %</li>
+        <li>niewyraźne widzenie {{data[3][4] }} %</li>
+        <li>zapalenie spojówek {{data[3][5] }} %</li>
+        <li>ból szyi lub barków {{data[3][6] }} %</li>
+        <li>pogorszenie jakości wzroku {{data[3][7] }} %</li>
+        <li>nie odczuwam żadnych konsekwencji {{data[3][8] }} %</li>
+        <li>inne {{data[3][9] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Czy posiadasz wadę wzroku?
+    <ul>
+        <li>Nie posiadam {{ data[4][0] }} %</li>
+        <li>Tak, jestem krótkowidzem {{ data[4][1] }} %</li>
+        <li>Tak, jestem dalekowidzem {{ data[4][2] }} %</li>
+        <li>Tak, inna {{ data[4][3] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Czy nosisz okulary?
+    <ul>
+        <li>Tak {{ data[5][0] }} %</li>
+        <li>Nie {{ data[5][1] }} %</li>
+        <li>Tylko do komputera {{ data[5][2] }} %</li>
+        <li>Tylko do komputera i posiadają filtr światła niebieskiego {{ data[5][3] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Kiedy ostatnie byłeś/aś u okulisty?
+    <ul>
+        <li>Nigdy {{ data[6][0] }} %</li>
+        <li>W ciągu ostatnich 6 miesięcy {{ data[6][1] }} %</li>
+        <li>W ciągu ostatniego roku {{ data[6][2] }} %</li>
+        <li>W ciągu ostatnich dwóch lat {{ data[6][3] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Jak często odczuwasz ból oczu?
+    <ul>
+        <li>1 {{ data[7][0] }} %</li>
+        <li>2 {{ data[7][1] }} %</li>
+        <li>3 {{ data[7][2] }} %</li>
+        <li>4 {{ data[7][3] }} %</li>
+        <li>5 {{ data[7][4] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Jak często odczuwasz ból głowy?
+    <ul>
+        <li>1 {{ data[8][0] }} %</li>
+        <li>2 {{ data[8][1] }} %</li>
+        <li>3 {{ data[8][2] }} %</li>
+        <li>4 {{ data[8][3] }} %</li>
+        <li>5 {{ data[8][4] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Czy w długotrwałej pracy przy komputerze stosujesz regularne przerwy w patrzeniu w ekran?
+    <ul>
+        <li>Tak {{ data[9][0] }} %</li>
+        <li>Nie {{ data[9][1] }} %</li>
+    </ul>
+</div>
+<br>
+<div>
+    Czy stosujesz nawilżające krople do oczu?
+    <ul>
+        <li>Tak {{ data[10][0] }} %</li>
+        <li>Nie {{ data[10][1] }} %</li>
+    </ul>
+</div>
+
+{% endblock %}
