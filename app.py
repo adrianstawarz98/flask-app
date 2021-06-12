@@ -7,7 +7,7 @@ from collections import Counter
 from sqlalchemy.orm import load_only
 
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='templates')
 
 app.secret_key = "some_password"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///FormData.sqlite3"
