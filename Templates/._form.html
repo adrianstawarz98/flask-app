@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p style="align: center;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<div>
+
+<form action="/form" method="post">
+    <div>
+        Czy jesteś studentem/studentką?  
+        <br> <input type="radio" name="studentStatus" value="yes"/> tak
+        <br> <input type="radio" name="studentStatus" value="no"/> nie
+    </div>
+    <br>
+    <div>
+        Twoja płeć: 
+        <br> <input type="radio" name="gender" value="female"/> kobieta
+        <br> <input type="radio" name="gender" value="male"/> mężczyzna
+        <br> <input type="radio" name="gender" value="other"/> inna
+    </div>
+    <br>
+    <div>
+        Ile godzin dziennie spędzasz przed komputerem?  
+        <br> <input type="radio" name="screenTime" value="1"/> 2-3 godziny
+        <br> <input type="radio" name="screenTime" value="2"/> 3-4 godziny
+        <br> <input type="radio" name="screenTime" value="3"/> 5-6 godzin
+        <br> <input type="radio" name="screenTime" value="4"/> 6 godzin lub więcej
+    </div>
+    <br>
+    <div>
+        Czy przed kwarantanną ilość godzin spędzonych przed komputerem była inna? 
+        Jeśli tak, to jaka? 
+        <br> <input type="radio" name="screenTime2" value="1"/> 2-3 godziny
+        <br> <input type="radio" name="screenTime2" value="2"/> 3-4 godziny
+        <br> <input type="radio" name="screenTime2" value="3"/> 5-6 godzin
+        <br> <input type="radio" name="screenTime2" value="4"/> 6 godzin lub więcej
+    </div>
+    <br>
+    <div>
+        Czy odczuwasz konsekwencje wynikające ze zmiany trybu studiów na zdalne? 
+        <br> <input type="checkbox" name="consequence[]" value="1"/> suchość oczu
+        <br> <input type="checkbox" name="consequence[]" value="2"/> pieczenie oczu
+        <br> <input type="checkbox" name="consequence[]" value="3"/> nadmierne zmęczenie
+        <br> <input type="checkbox" name="consequence[]" value="4"/> bóle głowy
+        <br> <input type="checkbox" name="consequence[]" value="5"/> niewyraźne widzenie
+        <br> <input type="checkbox" name="consequence[]" value="6"/> zapalenie spojówek
+        <br> <input type="checkbox" name="consequence[]" value="7"/> ból szyi lub barków
+        <br> <input type="checkbox" name="consequence[]" value="8"/> pogorszenie jakości wzroku
+        <br> <input type="checkbox" name="consequence[]" value="9"/> nie odczuwam żadnych konsekwencji
+        <br> <input type="checkbox" name="consequence[]" value="10"/> inne
+    </div>
+    <br>
+    <div>
+        Czy posiadasz wadę wzroku?  
+        <br> <input type="radio" name="visionProblems" value="1"/> nie posiadam
+        <br> <input type="radio" name="visionProblems" value="2"/> tak, jestem krótkowidzem
+        <br> <input type="radio" name="visionProblems" value="3"/> tak, jestem dalekowidzem
+        <br> <input type="radio" name="visionProblems" value="4"/> tak, inną
+    </div>
+    <br>
+    <div>
+        Czy nosisz okulary?  
+        <br> <input type="radio" name="glasses" value="1"/> tak
+        <br> <input type="radio" name="glasses" value="2"/> nie
+        <br> <input type="radio" name="glasses" value="3"/> tylko do komputera
+        <br> <input type="radio" name="glasses" value="4"/> tylko do komputera i posiadają filtr światła niebieskiego
+    </div>
+    <br>
+    <div>
+        Kiedy ostatnio byłeś/aś u okulisty? 
+        <br> <input type="radio" name="oculist" value="1"/> nigdy
+        <br> <input type="radio" name="oculist" value="2"/> w ciągu ostatnich 6 miesięcy
+        <br> <input type="radio" name="oculist" value="3"/> w ciągu ostatniego roku
+        <br> <input type="radio" name="oculist" value="4"/> w ciągu ostatnich 2 lat
+    </div>
+    <br>
+    <div>
+        Czy często odczuwasz ból oczu?
+        <br>
+        Nie, nigdy
+        <input type="radio" name="eyePain" value="1"/>
+        <input type="radio" name="eyePain" value="2"/>
+        <input type="radio" name="eyePain" value="3"/>
+        <input type="radio" name="eyePain" value="4"/>
+        <input type="radio" name="eyePain" value="5"/>
+        Tak, codziennie
+    </div>
+    <br>
+    <div>
+        Czy często odczuwasz ból głowy?
+        <br>
+        Nie, nigdy
+        <input type="radio" name="headache" value="1"/>
+        <input type="radio" name="headache" value="2"/>
+        <input type="radio" name="headache" value="3"/>
+        <input type="radio" name="headache" value="4"/>
+        <input type="radio" name="headache" value="5"/>
+        Tak, codziennie
+    </div>
+    <br>
+    <div>
+        Czy w długotrwałej pracy przy komputerze stosujesz regularne przerwy w patrzeniu w ekran? 
+        <br> <input type="radio" name="computerBreaks" value="yes"> tak
+        <br> <input type="radio" name="computerBreaks" value="no"/> nie
+    </div>
+    <br>
+    <div>
+        Czy stosujesz krople nawilżające do oczu? 
+        <br> <input type="radio" name="eyeDrops" value="yes"/> tak
+        <br> <input type="radio" name="eyeDrops" value="no"/> nie
+    </div>
+    <input type="submit" name="submit" value="Prześlij">
+</form>
+{% endblock %}
