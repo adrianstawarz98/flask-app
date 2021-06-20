@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask import Flask, redirect, url_for, render_template, request, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pickle
@@ -149,6 +149,16 @@ def results():
 
     return render_template('._result.html', data=percentages_all)
 
+@app.route('/get_ip', methods=['GET'])
+def get_ip():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip = request.environ['REMOTE_ADDR']
+        print(ip)
+    else:
+        ip = request.environ['HTTP_X_FORWARDED_FOR']
+        print(ip)
+
+    return jsonify({'ip': ip}), 200
 
 if __name__ == '__main__':
     db.create_all()
