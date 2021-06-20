@@ -114,7 +114,7 @@ def save():
             user_data = FormData(is_student, sex, hours_comp, hours_comp_before, consequences, defect, glasses, oculist, eye_pain, head_pain, breaks, droplets)
             db.session.add(user_data)
             db.session.commit()
-            return redirect('/')
+            return redirect('/results')
         else:
             flash("Jeśli nie jesteś studentem to eluwa", 'error')
             return redirect(url_for("form"))
