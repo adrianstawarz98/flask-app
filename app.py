@@ -6,7 +6,7 @@ import statistics
 from collections import Counter
 from sqlalchemy.orm import load_only
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='Templates')
 
 app.secret_key = "some_password"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///FormDataTest.sqlite3"
