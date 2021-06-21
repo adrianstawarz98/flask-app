@@ -2,6 +2,14 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <h3><p style="text-align: center;">{{msg}}</p></h3>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <h1> Procentowe podsumowanie jak odpowiadali inni ankietowani </h1>
 
 <div>

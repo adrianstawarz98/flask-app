@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Dolegliwości -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      var Data = {{data|tojson}};
+      console.log(Data);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Sex', ''],
+          ['Suchość oczu', Data[3][0]],
+          ['Pieczenie oczu', Data[3][1]],
+          ['Nadmierne zmęczenie', Data[3][2]],
+          ['Bóle głowy', Data[3][3]],
+          ['Niewyraźne widzenie',  Data[3][4]],
+          ['Zapalenie spojówek',  Data[3][5]],
+          ['Bóle szyi lub barku',  Data[3][6]],
+          ['Pogorszenie jakości wzroku',  Data[3][7]],
+          ['Nie odczuwam żadnych konsekwencji',  Data[3][8]],
+          ['Inne',  Data[3][9]],
+
+        ]);
+
+        var options = {
+          title: 'Konsekwencje wynikające ze zmiany trybu studiów na zdalne'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+<!-- Godziny przed komputerem -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var oldData = google.visualization.arrayToDataTable([
+                ['', ''],
+                ['2-3h', Data[1][0]],
+                ['3-4h', Data[1][1]],
+                ['5-6h', Data[1][2]],
+                ['6+h', Data[1][3]]
+            ]);            
+
+            var newData = google.visualization.arrayToDataTable([
+                ['', ''],
+                ['2-3h', Data[2][0]],
+                ['3-4h', Data[2][1]],
+                ['5-6h', Data[2][2]],
+                ['6+h', Data[2][3]]
+            ]);     
+
+            var options = {
+                title: 'Czas spędzany przed monitorem przed i w trakcie pandemii.',
+                diff: { innerCircle: { borderFactor: 0.08 } },
+                pieSliceText: 'percentage',
+
+            };
+
+            var chartDiff = new google.visualization.PieChart(document.getElementById('piechart_diff'));
+
+            var diffData = chartDiff.computeDiff(oldData, newData);
+            chartDiff.draw(diffData, options);
+        }
+    </script>
+<!-- Bóle -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['', 'Ból oczu', 'Ból głowy'],
+          ['1', Data[7][0], Data[8][0]],
+          ['2', Data[7][1], Data[8][1]],
+          ['3', Data[7][2], Data[8][2]],
+          ['4', Data[7][3], Data[8][3]],
+          ['5', Data[7][4], Data[8][4]],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Bóle spowodowane długotrwałym patrzeniem w ekran komputera',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material2'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+<!-- Wada -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['', ''],
+          ['Nie', Data[4][0]],
+          ['Tak, krótkowzroczność', Data[4][1]],
+          ['Tak, dalekowzroczność', Data[4][2]],
+          ['Tak, inne', Data[4][3]],
+        ]);
+
+        var options = {
+          title: 'Wady wzroku'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+
+        chart.draw(data, options);
+      }
+    </script>
+<!-- Okulary -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+        var data = google.visualization.arrayToDataTable([
+          ['', ''],
+          ['Tak', Data[5][0]],
+          ['Nie', Data[5][1]],
+          ['Tylko do komputera', Data[5][2]],
+          ['Tylko do komputera, z filtrem światła niebieskiego', Data[5][3]]
+        ]);
+
+        var options = {
+          width: 800,
+          legend: { position: 'none' },
+          chart: {
+            title: 'Okulary'
+            },
+          axes: {
+            x: {
+              0: { side: 'down', label: ''}
+            }
+          },
+          bar: { groupWidth: "90%" }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+        // Convert the Classic options to Material options.
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      };
+    </script>    
+<!-- Profilaktyka wzroku -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['', 'Regularne przerwy od patrzenia na ekran', 'Stosowanie kropli nawilżających'],
+          ['Tak', Data[9][0], Data[10][0]],
+          ['Nie', Data[9][1], Data[10][1]],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Profilaktyka wzroku',
+            //colors: [kolorek na każdy słupek w hexach]
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material3'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+
+    <div id="piechart" style="width: 900px; height: 500px;"></div><br>
+    <div id='piechart_diff' style='width: 900px; height: 500px;'></div><br>
+    <div id="columnchart_material2" style="width: 800px; height: 500px;"></div><br>
+    1 - brak<br>5 - codziennie
+    <div id="piechart2" style="width: 900px; height: 500px;"></div><br>
+    <div id="top_x_div" style="width: 800px; height: 500px;"></div><br>
+    <div id="columnchart_material3" style="width: 800px; height: 500px;"></div>
+    
+
+{% endblock %}

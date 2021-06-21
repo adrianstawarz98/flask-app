@@ -1,12 +1,63 @@
 body {
-    background-color: #E7B4FF;
-
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-
     line-height: 1.4em;
+    padding: 10px;
+    margin: 5px;
+    background-color: #E7B4FF;
+}
 
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
+.navbar-brand{
+    font-weight: bold;
+    border: 0px solid transparent;
+    margin-left: 20%;
+	padding: 15px;
+	font-size: 24px;
+}
+
+.container-fluid2{
+    height: auto;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #F7E6FF;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 0px solid transparent;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    text-align: center;
+    }
+
+.container-fluid3{
+    border: 0px solid transparent;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    height: 100px;
+    margin-top:1px;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-top: 20px;
+    background: #DF99FF;
+}
+
+
+.navbar {
+    border: 0px solid transparent;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    box-shadow: 0px 2px 2px 0px rgba(50, 50, 50, 0.24);
+    height:50px;
+}
+  
+.navbar a {
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 20px;
+    font-weight:bold;
+}
+  
+.navbar a:hover {
+    background-color: #B8B8B8;
+    color: white;
 }

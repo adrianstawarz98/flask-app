@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash, jsonify
+from flask import Flask, redirect, url_for, render_template, request, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pickle
@@ -6,11 +6,10 @@ import statistics
 from collections import Counter
 from sqlalchemy.orm import load_only
 
-
-app = Flask(__name__,template_folder='Templates')
+app = Flask(__name__)
 
 app.secret_key = "some_password"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///FormData.sqlite3"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///FormDataTest.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFIACTIONS"] = True
 
 db = SQLAlchemy(app)
@@ -44,9 +43,9 @@ class FormData(db.Model):
     breaks = db.Column(db.String(10))
     droplets = db.Column(db.String(10))
 
-    def __init__(self, is_student, sex, hours_comp, hours_comp_before, consequences, defect, glasses, oculist, eye_pain, head_pain, breaks, droplets):
-
-        self._ip = request.remote_addr
+    def __init__(self, is_student, sex, hours_comp, hours_comp_before, consequences, defect, glasses, oculist, eye_pain,
+                 head_pain, breaks, droplets):
+        self._ip = get_ip()
 
         self.is_student = is_student
         self.sex = sex
@@ -63,32 +62,44 @@ class FormData(db.Model):
 
     def get(self, attr_name):
         return getattr(self, attr_name)
-        
+
+
+# @app.route('/get_ip', methods=['GET'])
+def get_ip():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip = request.environ['REMOTE_ADDR']
+    else:
+        ip = request.environ['HTTP_X_FORWARDED_FOR']
+
+    return ip
+    # return jsonify({'ip': ip}), 200
+
 
 @app.route("/")
 def welcome():
     return render_template('._welcome.html')
 
+
 @app.route("/form")
 def form():
     users_ip = db.session.query(FormData._ip).all()
-    current_user = request.remote_addr
+    current_user = get_ip()
     for i in range(len(users_ip)):
         if current_user in users_ip[i][0]:
             flash("Formularz został już przez Ciebie wypełniony!", "info")
-            return redirect(url_for("raw"))
+            return redirect(url_for("results"))
 
     return render_template('._form.html')
+
 
 @app.route("/raw")
 def raw():
     users_data = db.session.query(FormData).all()
-    cons = pickle.loads(users_data[0].consequences)
-    if request.remote_addr == "127.0.0.1":
-        return render_template('._raw.html', formdata=[users_data, cons])
+    if request.remote_addr == "83.22.206.218":
+        return render_template('._raw.html', formdata=users_data)
     else:
-        flash("Nie posiadasz uprawnień, żeby przejść na tę stronę!")
-        return redirect(url_for("/"))
+        flash("Nie posiadasz uprawnień, żeby wyświetlić zawartość tej strony!")
+        return render_template('._raw.html', formdata=False)
 
 
 @app.route("/form", methods=['POST'])
@@ -111,23 +122,55 @@ def save():
         droplets = request.form['eyeDrops']
 
         if not is_student == "no":
-            user_data = FormData(is_student, sex, hours_comp, hours_comp_before, consequences, defect, glasses, oculist, eye_pain, head_pain, breaks, droplets)
+            user_data = FormData(is_student, sex, hours_comp, hours_comp_before, consequences, defect, glasses, oculist,
+                                 eye_pain, head_pain, breaks, droplets)
             db.session.add(user_data)
             db.session.commit()
-            return redirect('/results')
+            flash("Formularz został wypełniony prawidłowo!\nPrzejdź do wyników", 'info')
+            return redirect('/')
         else:
-            flash("Jeśli nie jesteś studentem to eluwa", 'error')
+            flash("Nie jesteś studentem - Twoje odpowiedzi nie zostały zapisane!", 'error')
             return redirect(url_for("form"))
-        
+
     except Exception:
         flash("Błędnie wypełniony formularz! Spróbuj jeszcze raz.", 'error')
         return redirect(url_for("form"))
 
+
 @app.route('/results')
 def results():
-
     percentages_all = []
-    fields = ["sex", "hours_comp", "hours_comp_before", "consequences", "defect", "glasses", "oculist", "eye_pain", "head_pain", "breaks", "droplets"]
+    fields = ["sex", "hours_comp", "hours_comp_before", "consequences", "defect", "glasses", "oculist", "eye_pain",
+              "head_pain", "breaks", "droplets"]
+
+    for name in fields:
+        if name != "consequences":
+            column = db.session.query(FormData).options(load_only(name)).all()
+            test = [i.get(name) for i in column]
+            count = list(OrderedCounter(test).values())
+            print(test)
+        else:
+            users_data = db.session.query(FormData).all()
+            cons_final = []
+            for i in range(len(users_data)):
+                cons = pickle.loads(users_data[i].consequences)
+                cons_final.extend(cons)
+
+            count = list(OrderedCounter(cons_final).values())
+        percentages = [int(float(y) / len(test) * 100) for y in count]
+        percentages_all.append(percentages)
+
+    print(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))  # to jeszcze do wypróbowania
+
+    return render_template('._result.html', data=percentages_all)
+
+
+@app.route("/charts")
+def charts():
+    counts_all = []
+    fields = ["sex", "hours_comp", "hours_comp_before",
+              "consequences", "defect", "glasses", "oculist",
+              "eye_pain", "head_pain", "breaks", "droplets"]
 
     for name in fields:
         if name != "consequences":
@@ -140,25 +183,12 @@ def results():
             for i in range(len(users_data)):
                 cons = pickle.loads(users_data[i].consequences)
                 cons_final.extend(cons)
-            
+
             count = list(OrderedCounter(cons_final).values())
-        percentages = [int(float(y) / len(test) * 100) for y in count]
-        percentages_all.append(percentages)
-    
+        counts_all.append(count)
 
+    return render_template('._charts.html', data=counts_all)
 
-    return render_template('._result.html', data=percentages_all)
-
-@app.route('/get_ip', methods=['GET'])
-def get_ip():
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        ip = request.environ['REMOTE_ADDR']
-        print(ip)
-    else:
-        ip = request.environ['HTTP_X_FORWARDED_FOR']
-        print(ip)
-
-    return jsonify({'ip': ip}), 200
 
 if __name__ == '__main__':
     db.create_all()
