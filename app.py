@@ -95,11 +95,8 @@ def form():
 @app.route("/raw")
 def raw():
     users_data = db.session.query(FormData).all()
-    if request.remote_addr == "83.22.206.218":
-        return render_template('._raw.html', formdata=users_data)
-    else:
-        flash("Nie posiadasz uprawnień, żeby wyświetlić zawartość tej strony!")
-        return render_template('._raw.html', formdata=False)
+    return render_template('._raw.html', formdata=users_data)
+
 
 
 @app.route("/form", methods=['POST'])
