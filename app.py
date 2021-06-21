@@ -11,6 +11,7 @@ app = Flask(__name__,template_folder='Templates')
 app.secret_key = "some_password"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///FormDataTest.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFIACTIONS"] = True
+ADMIN_IP_LIST = ["83.22.206.218", "89.64.46.103", "89.64.38.104"]
 
 db = SQLAlchemy(app)
 
@@ -95,8 +96,11 @@ def form():
 @app.route("/raw")
 def raw():
     users_data = db.session.query(FormData).all()
-    return render_template('._raw.html', formdata=users_data)
-
+    if get_ip() in ADMIN_IP_LIST:
+        return render_template('._raw.html', formdata=users_data)
+    else:
+        flash("Nie posiadasz uprawnień, żeby wyświetlić zawartość tej strony!")
+        return render_template('._raw.html', formdata=False)
 
 
 @app.route("/form", methods=['POST'])
